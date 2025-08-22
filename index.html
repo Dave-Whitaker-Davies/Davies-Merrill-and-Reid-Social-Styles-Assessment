@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Merrill & Reid Social Styles Assessment</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    .question, .instructions, #results {
+      background-color: white;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .instructions {
+      background-color: #fff3cd;
+      border: 1px solid #ffeeba;
+    }
+    .options {
+      margin-left: 20px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 20px 0;
+      display: block;
+      width: 100%;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .chart-container {
+      text-align: center;
+      margin: 30px 0;
+    }
+    canvas {
+      margin: 20px auto;
+      background-color: white;
+      border-radius: 5px;
+      display: block;
+      border: 2px solid #333;
+    }
+    .grid-position {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+      margin: 10px 0;
+    }
+    .style-breakdown {
+      background-color: #f8f9fa;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 15px 0;
+    }
+  </style>
+</head>
+<body>
+  <div style="text-align: center; margin-bottom: 30px;">
+    <img src="davies-logo.png" alt="Davies Logo" style="max-height: 80px; margin-bottom: 20px;">
+    <h1>Merrill & Reid Social Styles Assessment</h1>
+  </div>
+
+  <div class="instructions">
+    <h3>Before you begin:</h3>
+    <ul>
+      <li>Answer based on your typical work behavior.</li>
+      <li>Choose the option that feels most natural—even if more than one fits.</li>
+      <li>Be honest and instinctive; there are no right or wrong answers.</li>
+    </ul>
+  </div>
+
+  <form id="assessment">
+    <div class="question">
+      <p>1. When approaching a new task, I tend to:</p>
+      <div class="options">
+        <label><input type="radio" name="q1" value="analytical"> Plan thoroughly and analyze all details</label><br>
+        <label><input type="radio" name="q1" value="amiable"> Seek input and consensus from others</label><br>
+        <label><input type="radio" name="q1" value="driver"> Take charge and move quickly to action</label><br>
+        <label><input type="radio" name="q1" value="expressive"> Brainstorm creatively and enthusiastically</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>2. In meetings, I usually:</p>
+      <div class="options">
+        <label><input type="radio" name="q2" value="analytical"> Focus on facts, data, and logical analysis</label><br>
+        <label><input type="radio" name="q2" value="amiable"> Listen carefully and support others' ideas</label><br>
+        <label><input type="radio" name="q2" value="driver"> Lead the discussion toward concrete decisions</label><br>
+        <label><input type="radio" name="q2" value="expressive"> Share ideas with energy and enthusiasm</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>3. When solving problems, I prefer to:</p>
+      <div class="options">
+        <label><input type="radio" name="q3" value="analytical"> Analyze all data systematically before deciding</label><br>
+        <label><input type="radio" name="q3" value="amiable"> Consider how the solution affects everyone involved</label><br>
+        <label><input type="radio" name="q3" value="driver"> Make quick decisions and implement immediately</label><br>
+        <label><input type="radio" name="q3" value="expressive"> Explore creative and innovative options</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>4. My communication style is typically:</p>
+      <div class="options">
+        <label><input type="radio" name="q4" value="analytical"> Precise, structured, and fact-based</label><br>
+        <label><input type="radio" name="q4" value="amiable"> Warm, considerate, and supportive</label><br>
+        <label><input type="radio" name="q4" value="driver"> Direct, concise, and results-oriented</label><br>
+        <label><input type="radio" name="q4" value="expressive"> Animated, expressive, and engaging</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>5. When under pressure, I tend to:</p>
+      <div class="options">
+        <label><input type="radio" name="q5" value="analytical"> Withdraw to think and analyze the situation</label><br>
+        <label><input type="radio" name="q5" value="amiable"> Seek reassurance and support from others</label><br>
+        <label><input type="radio" name="q5" value="driver"> Take control and push harder for results</label><br>
+        <label><input type="radio" name="q5" value="expressive"> Talk through the issues openly and emotionally</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>6. I am most motivated by:</p>
+      <div class="options">
+        <label><input type="radio" name="q6" value="analytical"> Accuracy, quality, and logical correctness</label><br>
+        <label><input type="radio" name="q6" value="amiable"> Harmony, relationships, and team cooperation</label><br>
+        <label><input type="radio" name="q6" value="driver"> Achievement, results, and winning</label><br>
+        <label><input type="radio" name="q6" value="expressive"> Recognition, excitement, and social interaction</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>7. My decision-making approach is:</p>
+      <div class="options">
+        <label><input type="radio" name="q7" value="analytical"> Cautious and thoroughly researched</label><br>
+        <label><input type="radio" name="q7" value="amiable"> Collaborative and consensus-building</label><br>
+        <label><input type="radio" name="q7" value="driver"> Fast, assertive, and action-oriented</label><br>
+        <label><input type="radio" name="q7" value="expressive"> Intuitive, spontaneous, and people-focused</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>8. I prefer working in environments that are:</p>
+      <div class="options">
+        <label><input type="radio" name="q8" value="analytical"> Structured, predictable, with clear procedures</label><br>
+        <label><input type="radio" name="q8" value="amiable"> Supportive, collaborative, and friendly</label><br>
+        <label><input type="radio" name="q8" value="driver"> Fast-paced, competitive, and results-driven</label><br>
+        <label><input type="radio" name="q8" value="expressive"> Dynamic, stimulating, and socially interactive</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>9. Others typically describe me as:</p>
+      <div class="options">
+        <label><input type="radio" name="q9" value="analytical"> Thoughtful, careful, and methodical</label><br>
+        <label><input type="radio" name="q9" value="amiable"> Kind, loyal, and dependable</label><br>
+        <label><input type="radio" name="q9" value="driver"> Confident, decisive, and determined</label><br>
+        <label><input type="radio" name="q9" value="expressive"> Energetic, enthusiastic, and fun</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>10. When facing conflict, I usually:</p>
+      <div class="options">
+        <label><input type="radio" name="q10" value="analytical"> Avoid confrontation and seek logical solutions</label><br>
+        <label><input type="radio" name="q10" value="amiable"> Try to maintain harmony and find compromise</label><br>
+        <label><input type="radio" name="q10" value="driver"> Address it directly and assertively</label><br>
+        <label><input type="radio" name="q10" value="expressive"> Express feelings openly and seek understanding</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>11. My ideal work pace is:</p>
+      <div class="options">
+        <label><input type="radio" name="q11" value="analytical"> Steady and methodical with time for thorough analysis</label><br>
+        <label><input type="radio" name="q11" value="amiable"> Relaxed and collaborative with time for relationships</label><br>
+        <label><input type="radio" name="q11" value="driver"> Fast and urgent with focus on immediate results</label><br>
+        <label><input type="radio" name="q11" value="expressive"> Varied and stimulating with lots of interaction</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>12. When presenting ideas, I focus on:</p>
+      <div class="options">
+        <label><input type="radio" name="q12" value="analytical"> Detailed data and logical proof points</label><br>
+        <label><input type="radio" name="q12" value="amiable"> How it benefits everyone and builds consensus</label><br>
+        <label><input type="radio" name="q12" value="driver"> Bottom-line results and competitive advantage</label><br>
+        <label><input type="radio" name="q12" value="expressive"> The big picture vision and emotional appeal</label>
+      </div>
+    </div>
+
+    <button type="button" onclick="calculateResults()">Calculate Results</button>
+  </form>
+
+  <script>
+    function calculateResults() {
+      console.log("Calculate function called");
+      const form = document.getElementById("assessment");
+      const answers = new FormData(form);
+      
+      // Weighted scoring to avoid perfect balance
+      const styleScores = {
+        analytical: 0,
+        amiable: 0,
+        driver: 0,
+        expressive: 0
+      };
+
+      // Count answers with slight weighting
+      for (let i = 1; i <= 12; i++) {
+        const answer = answers.get("q" + i);
+        console.log(`Question ${i}: ${answer}`);
+        if (!answer) {
+          alert("Please answer all 12 questions before calculating.");
+          return;
+        }
+        
+        // Add base score
+        styleScores[answer] += 1;
+        
+        // Add slight random weighting to avoid perfect ties
+        styleScores[answer] += Math.random() * 0.1;
+      }
+      
+      console.log("Style scores:", styleScores);
+
+      // Calculate percentages
+      const total = Object.values(styleScores).reduce((a, b) => a + b, 0);
+      const percentages = {
+        analytical: Math.round((styleScores.analytical / total) * 100),
+        amiable: Math.round((styleScores.amiable / total) * 100),
+        driver: Math.round((styleScores.driver / total) * 100),
+        expressive: Math.round((styleScores.expressive / total) * 100)
+      };
+
+      // Calculate grid position based on original Merrill & Reid model
+      // X-axis: A (Amiable/Analytical side) to H (Expressive/Driver side)  
+      // Y-axis: 1 (Amiable/Expressive side) to 8 (Analytical/Driver side)
+      
+      // X-axis calculation: Amiable+Analytical (left) vs Expressive+Driver (right)
+      const leftSide = styleScores.amiable + styleScores.analytical;
+      const rightSide = styleScores.expressive + styleScores.driver;
+      const xRatio = rightSide / (leftSide + rightSide);
+      const xPosition = Math.round(1 + xRatio * 7); // 1-8 scale
+      const xLetter = String.fromCharCode(64 + xPosition); // A-H
+
+      // Y-axis calculation: Amiable+Expressive (bottom) vs Analytical+Driver (top)
+      const bottomSide = styleScores.amiable + styleScores.expressive;
+      const topSide = styleScores.analytical + styleScores.driver;
+      const yRatio = topSide / (bottomSide + topSide);
+      const yPosition = Math.round(1 + yRatio * 7); // 1-8 scale
+
+      const gridPosition = xLetter + yPosition;
+
+      // Determine dominant style and create description
+      const dominantStyle = Object.entries(percentages).reduce((a, b) => percentages[a[0]] > percentages[b[0]] ? a : b)[0];
+      const dominantPercentage = percentages[dominantStyle];
+
+      // Create style description based on grid position
+      let styleDescription = "";
+      if (gridPosition === "A1") styleDescription = "Amiable (100% People-focused, High emotional responsiveness)";
+      else if (gridPosition === "A8") styleDescription = "Analytical (100% People-focused, Low emotional responsiveness)";
+      else if (gridPosition === "H1") styleDescription = "Expressive (100% Task-focused, High emotional responsiveness)";
+      else if (gridPosition === "H8") styleDescription = "Driver (100% Task-focused, Low emotional responsiveness)";
+      else {
+        const taskPercent = Math.round(((xPosition - 1) / 7) * 100);
+        const peoplePercent = 100 - taskPercent;
+        const lowResponsePercent = Math.round(((yPosition - 1) / 7) * 100);
+        const highResponsePercent = 100 - lowResponsePercent;
+        
+        styleDescription = `${dominantStyle.charAt(0).toUpperCase() + dominantStyle.slice(1)} blend (${taskPercent}% Task-focused, ${lowResponsePercent}% Low emotional responsiveness)`;
+      }
+
+      let resultDiv = document.getElementById("results");
+      if (!resultDiv) {
+        resultDiv = document.createElement("div");
+        resultDiv.id = "results";
+        resultDiv.className = "question";
+        form.after(resultDiv);
+      }
+
+      resultDiv.innerHTML = `
+        <h2>Your Social Style Profile</h2>
+        <div class="grid-position">Grid Position: ${gridPosition}</div>
+        <p><strong>Profile:</strong> ${styleDescription}</p>
+        <div class="style-breakdown">
+          <h3>Style Breakdown:</h3>
+          <p><strong>Analytical:</strong> ${percentages.analytical}%</p>
+          <p><strong>Amiable:</strong> ${percentages.amiable}%</p>
+          <p><strong>Driver:</strong> ${percentages.driver}%</p>
+          <p><strong>Expressive:</strong> ${percentages.expressive}%</p>
+        </div>
+        <div class="chart-container">
+          <canvas id="styleCanvas" width="600" height="600"></canvas>
+        </div>
+      `;
+
+      // Draw the grid
+      const canvas = document.getElementById("styleCanvas");
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, 600, 600);
+
+      const gridSize = 60;
+      const startX = 60;
+      const startY = 60;
+      const gridWidth = 8 * gridSize;
+      const gridHeight = 8 * gridSize;
+
+      // Draw background quadrants - ORIGINAL COLORS AND POSITIONS
+      ctx.fillStyle = "#d4edda"; // Amiable (A1 area - bottom left)
+      ctx.fillRect(startX, startY + gridHeight/2, gridWidth/2, gridHeight/2);
+      ctx.fillStyle = "#cce5ff"; // Analytical (A8 area - top left)
+      ctx.fillRect(startX, startY, gridWidth/2, gridHeight/2);
+      ctx.fillStyle = "#fff3cd"; // Expressive (H1 area - bottom right)
+      ctx.fillRect(startX + gridWidth/2, startY + gridHeight/2, gridWidth/2, gridHeight/2);
+      ctx.fillStyle = "#f8d7da"; // Driver (H8 area - top right)
+      ctx.fillRect(startX + gridWidth/2, startY, gridWidth/2, gridHeight/2);
+
+      // Draw grid lines
+      ctx.strokeStyle = "#ddd";
+      ctx.lineWidth = 1;
+      for (let i = 0; i <= 8; i++) {
+        // Vertical lines
+        ctx.beginPath();
+        ctx.moveTo(startX + i * gridSize, startY);
+        ctx.lineTo(startX + i * gridSize, startY + gridHeight);
+        ctx.stroke();
+        // Horizontal lines
+        ctx.beginPath();
+        ctx.moveTo(startX, startY + i * gridSize);
+        ctx.lineTo(startX + gridWidth, startY + i * gridSize);
+        ctx.stroke();
+      }
+
+      // Draw center lines
+      ctx.strokeStyle = "#333";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(startX + gridWidth/2, startY);
+      ctx.lineTo(startX + gridWidth/2, startY + gridHeight);
+      ctx.moveTo(startX, startY + gridHeight/2);
+      ctx.lineTo(startX + gridWidth, startY + gridHeight/2);
+      ctx.stroke();
+
+      // Add corner labels - ORIGINAL POSITIONS
+      ctx.fillStyle = "#000";
+      ctx.font = "bold 12px Arial";
+      ctx.textAlign = "center";
+      ctx.fillText("ANALYTICAL", startX + gridWidth/4, startY + 20);
+      ctx.fillText("DRIVER", startX + 3*gridWidth/4, startY + 20);
+      ctx.fillText("AMIABLE", startX + gridWidth/4, startY + gridHeight - 10);
+      ctx.fillText("EXPRESSIVE", startX + 3*gridWidth/4, startY + gridHeight - 10);
+
+      // Add axis labels outside grid
+      ctx.font = "12px Arial";
+      // X-axis labels (A-H)
+      for (let i = 0; i < 8; i++) {
+        const letter = String.fromCharCode(65 + i);
+        ctx.fillText(letter, startX + (i * gridSize) + gridSize/2, startY + gridHeight + 25);
+      }
+
+      // Y-axis labels (1-8) - 1 at bottom, 8 at top
+      for (let i = 0; i < 8; i++) {
+        const number = (8 - i).toString();
+        ctx.fillText(number, startX - 25, startY + (i * gridSize) + gridSize/2 + 5);
+      }
+
+      // Add axis titles
+      ctx.font = "14px Arial";
+      ctx.fillText("A (People-focused) ←→ H (Task-focused)", startX + gridWidth/2, startY + gridHeight + 50);
+      
+      ctx.save();
+      ctx.translate(25, startY + gridHeight/2);
+      ctx.rotate(-Math.PI/2);
+      ctx.fillText("1 (High emotional response) ↑↓ 8 (Low emotional response)", 0, 0);
+      ctx.restore();
+
+      // Draw the result point - correct positioning
+      const dotX = startX + (xPosition - 1) * gridSize + gridSize/2;
+      const dotY = startY + (8 - yPosition) * gridSize + gridSize/2;
+
+      ctx.fillStyle = "red";
+      ctx.beginPath();
+      ctx.arc(dotX, dotY, 10, 0, 2 * Math.PI);
+      ctx.fill();
+
+      ctx.strokeStyle = "darkred";
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      // Add position label
+      ctx.fillStyle = "darkred";
+      ctx.font = "bold 16px Arial";
+      ctx.fillText(gridPosition, dotX + 20, dotY - 20);
+    }
+  </script>
+</body>
+</html>
