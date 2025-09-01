@@ -246,43 +246,37 @@
         expressive: Math.round((styleScores.expressive / total) * 100)
       };
 
-      // Calculate grid position based on original Merrill & Reid model
-      // X-axis: A (Amiable/Analytical side) to H (Expressive/Driver side)  
-      // Y-axis: 1 (Amiable/Expressive side) to 8 (Analytical/Driver side)
-      
-      // X-axis calculation: Amiable+Analytical (left) vs Expressive+Driver (right)
-      const leftSide = styleScores.amiable + styleScores.analytical;
-      const rightSide = styleScores.expressive + styleScores.driver;
-      const xRatio = rightSide / (leftSide + rightSide);
-      const xPosition = Math.round(1 + xRatio * 7); // 1-8 scale
+      // Calculate grid position based on CORRECT Merrill & Reid model
+      // X-axis: Ask-Assertive (A) to Tell-Assertive (H)  
+      // Tell-Assertive = Driver + Expressive vs Ask-Assertive = Analytical + Amiable
+      const tellAssertive = styleScores.driver + styleScores.expressive;
+      const askAssertive = styleScores.analytical + styleScores.amiable;
+      const assertivenessRatio = tellAssertive / (tellAssertive + askAssertive);
+      const xPosition = Math.round(1 + assertivenessRatio * 7); // 1-8 scale
       const xLetter = String.fromCharCode(64 + xPosition); // A-H
 
-      // Y-axis calculation: Amiable+Expressive (bottom) vs Analytical+Driver (top)
-      const bottomSide = styleScores.amiable + styleScores.expressive;
-      const topSide = styleScores.analytical + styleScores.driver;
-      const yRatio = topSide / (bottomSide + topSide);
-      const yPosition = Math.round(1 + yRatio * 7); // 1-8 scale
+      // Y-axis: People-Responsive (1) to Task-Responsive (8)
+      // Task-Responsive = Analytical + Driver vs People-Responsive = Amiable + Expressive
+      const taskResponsive = styleScores.analytical + styleScores.driver;
+      const peopleResponsive = styleScores.amiable + styleScores.expressive;
+      const responsivenessRatio = taskResponsive / (taskResponsive + peopleResponsive);
+      const yPosition = Math.round(1 + responsivenessRatio * 7); // 1-8 scale
 
       const gridPosition = xLetter + yPosition;
 
-      // Determine dominant style and create description
+      // Determine dominant style
       const dominantStyle = Object.entries(percentages).reduce((a, b) => percentages[a[0]] > percentages[b[0]] ? a : b)[0];
       const dominantPercentage = percentages[dominantStyle];
 
-      // Create style description based on grid position
-      let styleDescription = "";
-      if (gridPosition === "A1") styleDescription = "Amiable (100% People-focused, High emotional responsiveness)";
-      else if (gridPosition === "A8") styleDescription = "Analytical (100% People-focused, Low emotional responsiveness)";
-      else if (gridPosition === "H1") styleDescription = "Expressive (100% Task-focused, High emotional responsiveness)";
-      else if (gridPosition === "H8") styleDescription = "Driver (100% Task-focused, Low emotional responsiveness)";
-      else {
-        const taskPercent = Math.round(((xPosition - 1) / 7) * 100);
-        const peoplePercent = 100 - taskPercent;
-        const lowResponsePercent = Math.round(((yPosition - 1) / 7) * 100);
-        const highResponsePercent = 100 - lowResponsePercent;
-        
-        styleDescription = `${dominantStyle.charAt(0).toUpperCase() + dominantStyle.slice(1)} blend (${taskPercent}% Task-focused, ${lowResponsePercent}% Low emotional responsiveness)`;
-      }
+      // Create simple style description
+      const styleDescriptions = {
+        analytical: "Analytical - Thoughtful, methodical, and data-driven. Prefers structured environments and detailed analysis.",
+        amiable: "Amiable - Warm, supportive, and relationship-oriented. Values harmony and collaborative decision-making.", 
+        driver: "Driver - Direct, results-oriented, and decisive. Thrives in fast-paced, competitive environments.",
+        expressive: "Expressive - Enthusiastic, creative, and socially interactive. Motivated by recognition and stimulating challenges."
+      };
+
+      const styleDescription = styleDescriptions[dominantStyle];
 
       let resultDiv = document.getElementById("results");
       if (!resultDiv) {
@@ -295,7 +289,7 @@
       resultDiv.innerHTML = `
         <h2>Your Social Style Profile</h2>
         <div class="grid-position">Grid Position: ${gridPosition}</div>
-        <p><strong>Profile:</strong> ${styleDescription}</p>
+        <p><strong>Dominant Style:</strong> ${styleDescription}</p>
         <div class="style-breakdown">
           <h3>Style Breakdown:</h3>
           <p><strong>Analytical:</strong> ${percentages.analytical}%</p>
